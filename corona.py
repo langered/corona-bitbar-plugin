@@ -1,4 +1,4 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
+#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3.8
 
 # <bitbar.title>Corona numbers plugin</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
@@ -19,18 +19,21 @@ class CoronaData:
         self.confirmed = confirmed
         self.recovered = recovered
         self.deaths = deaths
+        self.currently_ill = confirmed - recovered - deaths
         self.countryregion = countryregion
     def __str__(self):
         return f'Confirmed: {self.confirmed}, Recovered: {self.recovered}, Deaths: {self.deaths}, Countryregion: {self.countryregion}'
     def print_bitbar(self):
-        confirmed_value = str(self.confirmed) + ' | color=blue'
-        recovered_value = str(self.recovered) + ' | color=green'
-        deaths_value = str(self.deaths) + ' | color=red'
+        confirmed_value = ':syringe: ' + str(self.confirmed) + ' | color=blue'
+        currently_ill_value = ':mask: ' + str(self.currently_ill) + ' | color=yellow'
+        recovered_value = ':grin: ' + str(self.recovered) + ' | color=green'
+        deaths_value = ':skull: ' + str(self.deaths) + ' | color=red'
 
         output = """%s
 %s
 %s
-%s """ % (self.countryregion, confirmed_value, recovered_value, deaths_value)
+%s
+%s""" % (self.countryregion, confirmed_value, currently_ill_value, recovered_value, deaths_value)
         return output
 
 def total_numbers():
